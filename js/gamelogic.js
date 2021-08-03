@@ -172,9 +172,12 @@ function selectPiece(event){
                     round--;
                 }
             }
+            else{
+                round--;
+            }
         }
         else{
-            if(source.classList.contains("black")){
+            if(source.classList.contains("black")&&!target.classList.contains("black")){
                 if(source.classList.contains("horse")){
                     if(setHorse(sourcePos,targetPos)){
                         resetTile(source);
@@ -223,10 +226,12 @@ function selectPiece(event){
                     }
                 }
                 else{
-                    console.log("fuck")
                     round--;
                 }
 
+            }
+            else{
+                round--;
             }
         }
         
