@@ -1,5 +1,5 @@
 let board = document.getElementsByClassName("tile");
-let i,round = 1;
+let i,round = 0;
 let selected = 0;
 let targetPos = 0;
 let sourcePos = 0; 
@@ -115,7 +115,7 @@ function selectPiece(event){
         targetPos = position(target);
         if(round%2==0){
             // it only lets you select whites
-            if(source.classList.contains("white")){
+            if(source.classList.contains("white")&&!target.classList.contains("white")){
                 // check wich piece u're selecting
                 if(source.classList.contains("horse")){
                     // check if the move is legal

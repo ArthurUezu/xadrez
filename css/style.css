@@ -21,6 +21,78 @@ body{
 .odd{
     background-color: black;
 }
+.black.pawn{
+    background: url(bpawn.png);
+}
+.black.pawn.odd{
+    background: url(bopawn.png);
+}
+.white.pawn{
+    background: url(wpawn.png);
+}
+.white.pawn.odd{
+    background: url(wopawn.png);
+}
+.black.tower{
+    background: url(btwr.png);
+}
+.black.tower.odd{
+    background: url(botwr.png);
+}
+.white.tower{
+    background: url(wtwr.png);
+}
+.white.tower.odd{
+    background: url(wotwr.png);
+}
+.black.bishop{
+    background: url(bbishop.png);
+}
+.black.bishop.odd{
+    background: url(bobishop.png);
+}
+.white.bishop{
+    background: url(wbishop.png);
+}
+.white.bishop.odd{
+    background: url(wobishop.png);
+}
+.black.horse{
+    background: url(bhorse.png);
+}
+.black.horse.odd{
+    background: url(bohorse.png);
+}
+.white.horse{
+    background: url(whorse.png);
+}
+.white.horse.odd{
+    background: url(wohorse.png);
+}
+.black.queen{
+    background: url(bqueen.png);
+}
+.black.queen.odd{
+    background: url(boqueen.png);
+}
+.white.queen{
+    background: url(wqueen.png);
+}
+.white.queen.odd{
+    background: url(woqueen.png);
+}
+.black.king{
+    background: url(bking.png);
+}
+.black.king.odd{
+    background: url(boking.png);
+}
+.white.king{
+    background: url(wking.png);
+}
+.white.king.odd{
+    background: url(woking.png);
+}
 #selected,#target{
     border:3px solid red;
 }
