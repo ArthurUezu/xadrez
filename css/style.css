@@ -1,0 +1,26 @@
+*{
+    margin:0;
+    padding: 0;
+    border: 0;
+    font-size: 25px;
+    color: red;
+}
+body{
+    height: 95vh;
+}
+
+#container{
+    margin: 0 auto;
+    margin-top: 15px;
+    display: grid;
+    grid: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr / 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    height: 640px;
+    width: 640px;
+    border: 1px solid black;
+}
+.odd{
+    background-color: black;
+}
+#selected,#target{
+    border:3px solid red;
+}
