@@ -171,6 +171,7 @@ function selectPiece(event){
                 else{
                     round--;
                 }
+                document.getElementById("turno").innerText = round;
             }
             else{
                 round--;
@@ -228,7 +229,7 @@ function selectPiece(event){
                 else{
                     round--;
                 }
-
+                document.getElementById("turno").innerText = round;
             }
             else{
                 round--;
