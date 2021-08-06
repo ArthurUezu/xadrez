@@ -23,6 +23,9 @@ body{
     width: 640px;
     border: 1px solid black;
 }
+.possible{
+    border: 5px solid green;
+}
 .odd{
     background-color: black;
 }
