@@ -39,75 +39,99 @@ function displayPath(piece){
 
     // bishop movement, still requires a bit of improving
     if(piece.classList.contains("bishop")){
-        for(i=0;i<=size;i++){
-            if(size > posY+i){
-                if(posX-i>-1){
-                    board[posY+i][posX-i].classList.add("possible");
-                }
-                if(posX+i<8){
-                    board[posY+i][posX+i].classList.add("possible");
-                }
-            }
-            if(posY-i>-1){
-                board[posY-i][posX-i].classList.add("possible");
-                if(posX+i<8){
-                    board[posY-i][posX+i].classList.add("possible");
-                }
-            }
-        }
+        bishopPath(posX,posY);
     }
     else if(piece.classList.contains("horse")){
-        if(posY+2<8){
-            if(posX+1<8){
-                board[posY+2][posX+1].classList.add("possible");
-            }
-            if(posX-1>=0){
-                board[posY+2][posX-1].classList.add("possible");
-            }
-        }
-        if(posY-2>=0){
-            if(posX+1<8){
-                board[posY-2][posX+1].classList.add("possible");
-            }
-            if(posX-1>=0){
-                board[posY-2][posX-1].classList.add("possible");
-            }
-        }
-        if(posY+1<8){
-            if(posX+2<8){
-                board[posY+1][posX+2].classList.add("possible");
-            }
-            if(posX-2>=0){
-                board[posY+1][posX-2].classList.add("possible");
-            }
-        }
-        if(posY-1>=0){
-            if(posX+2<8){
-                board[posY-1][posX+2].classList.add("possible");
-            }
-            if(posX-2>=0){
-                board[posY-1][posX-2].classList.add("possible");
-            }
-        }
+        horsePath(posX,posY);
     }
     else if(piece.classList.contains("tower")){
-        for(i=0;i<size;i++){
+        towerPath(posX,posY);
+    }
+    else if(piece.classList.contains("queen")){
+        towerPath(posX,posY);
+        bishopPath(posX,posY);
+    }
+    else if(piece.classList.contains("king")){
+        kingPath(posX,posY);
+    }
+}
+
+function horsePath(posX,posY){
+    if(posY+2<8){
+        if(posX+1<8){
+            board[posY+2][posX+1].classList.add("possible");
+        }
+        if(posX-1>=0){
+            board[posY+2][posX-1].classList.add("possible");
+        }
+    }
+    if(posY-2>=0){
+        if(posX+1<8){
+            board[posY-2][posX+1].classList.add("possible");
+        }
+        if(posX-1>=0){
+            board[posY-2][posX-1].classList.add("possible");
+        }
+    }
+    if(posY+1<8){
+        if(posX+2<8){
+            board[posY+1][posX+2].classList.add("possible");
+        }
+        if(posX-2>=0){
+            board[posY+1][posX-2].classList.add("possible");
+        }
+    }
+    if(posY-1>=0){
+        if(posX+2<8){
+            board[posY-1][posX+2].classList.add("possible");
+        }
+        if(posX-2>=0){
+            board[posY-1][posX-2].classList.add("possible");
+        }
+    }
+}
+
+function bishopPath(posX,posY){
+    for(i=0;i<=size;i++){
+        if(size > posY+i){
+            if(posX-i>-1){
+                board[posY+i][posX-i].classList.add("possible");
+            }
             if(posX+i<8){
-                board[posY][posX+i].classList.add("possible");
+                board[posY+i][posX+i].classList.add("possible");
             }
-            if(posX-i>=0){
-                board[posY][posX-i].classList.add("possible");
-            }
-            if(posY+i<8){
-                board[posY+i][posX].classList.add("possible");
-            }
-            if(posY-i>=0){
-                board[posY-i][posX].classList.add("possible");
+        }
+        if(posY-i>-1){
+            board[posY-i][posX-i].classList.add("possible");
+            if(posX+i<8){
+                board[posY-i][posX+i].classList.add("possible");
             }
         }
     }
 }
 
+function towerPath(posX,posY){
+    for(i=0;i<size;i++){
+        if(posX+i<8){
+            board[posY][posX+i].classList.add("possible");
+        }
+        if(posX-i>=0){
+            board[posY][posX-i].classList.add("possible");
+        }
+        if(posY+i<8){
+            board[posY+i][posX].classList.add("possible");
+        }
+        if(posY-i>=0){
+            board[posY-i][posX].classList.add("possible");
+        }
+    }
+}
+
+function kingPath(posX,posY){
+    for(i=-1;i<2;i=i+2){
+        // TODO
+    }
+}
 
 function selectPiece(event){
     // try catch is a much better solution for what i was trying to do in the last version,
