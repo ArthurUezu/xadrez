@@ -39,18 +39,70 @@ function displayPath(piece){
 
     // bishop movement, still requires a bit of improving
     if(piece.classList.contains("bishop")){
-        for(i=0;i<=posX;i++){
+        for(i=0;i<=size;i++){
             if(size > posY+i){
-                board[posY+i][posX-i].classList.add("possible");
+                if(posX-i>-1){
+                    board[posY+i][posX-i].classList.add("possible");
+                }
                 if(posX+i<8){
                     board[posY+i][posX+i].classList.add("possible");
                 }
             }
-            if(posY-i!=-1){
+            if(posY-i>-1){
                 board[posY-i][posX-i].classList.add("possible");
                 if(posX+i<8){
                     board[posY-i][posX+i].classList.add("possible");
                 }
+            }
+        }
+    }
+    else if(piece.classList.contains("horse")){
+        if(posY+2<8){
+            if(posX+1<8){
+                board[posY+2][posX+1].classList.add("possible");
+            }
+            if(posX-1>=0){
+                board[posY+2][posX-1].classList.add("possible");
+            }
+        }
+        if(posY-2>=0){
+            if(posX+1<8){
+                board[posY-2][posX+1].classList.add("possible");
+            }
+            if(posX-1>=0){
+                board[posY-2][posX-1].classList.add("possible");
+            }
+        }
+        if(posY+1<8){
+            if(posX+2<8){
+                board[posY+1][posX+2].classList.add("possible");
+            }
+            if(posX-2>=0){
+                board[posY+1][posX-2].classList.add("possible");
+            }
+        }
+        if(posY-1>=0){
+            if(posX+2<8){
+                board[posY-1][posX+2].classList.add("possible");
+            }
+            if(posX-2>=0){
+                board[posY-1][posX-2].classList.add("possible");
+            }
+        }
+    }
+    else if(piece.classList.contains("tower")){
+        for(i=0;i<size;i++){
+            if(posX+i<8){
+                board[posY][posX+i].classList.add("possible");
+            }
+            if(posX-i>=0){
+                board[posY][posX-i].classList.add("possible");
+            }
+            if(posY+i<8){
+                board[posY+i][posX].classList.add("possible");
+            }
+            if(posY-i>=0){
+                board[posY-i][posX].classList.add("possible");
             }
         }
     }
