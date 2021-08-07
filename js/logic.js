@@ -1,14 +1,11 @@
 const size = 8;
 // here i get the entire board in a vector with values ranging from 0 - 63 in the aux
-let aux = document.getElementsByClassName("tile");
 
-// board is going to be the real board for our game, but now its just an empty vector
-let board = [];
-
-// loop variables
 let i,j;
 
 // this loop is passing the aux to the board, creating a matrix of 8 by 8
+let aux = document.getElementsByClassName("tile");
+let board = [];
 for(i=0;i<size;i++){
     board[i] = new Array();
     for(j=0;j<size;j++){
@@ -34,7 +31,7 @@ function displayPath(piece){
         }
     }
     let color = piece.classList.contains("white");
-    // color = 1 white, color = 2 black
+    // color = 1 white, color = 0 black
     console.log("(y,x)="+posY+","+posX);
 
     // bishop movement, still requires a bit of improving
@@ -53,6 +50,9 @@ function displayPath(piece){
     }
     else if(piece.classList.contains("king")){
         kingPath(posX,posY);
+    }
+    else if(piece.classList.contains("pawn")){
+        pawnPath(posX,posY,color);
     }
 }
 
@@ -128,8 +128,47 @@ function towerPath(posX,posY){
 }
 
 function kingPath(posX,posY){
-    for(i=-1;i<2;i=i+2){
-        // TODO
+    board[posY][posX+1].classList.add("possible");
+    board[posY][posX-1].classList.add("possible");
+    for(i=-1;i<2;i++){    
+        if(posY-1>=0&&posX+i<8){
+            board[posY-1][posX+i].classList.add("possible");
+        }
+        if(posY+1<8 && posX+i<8){
+            board[posY+1][posX+i].classList.add("possible");
+        }
+        
+    }
+}
+
+function pawnPath(posX,posY,color){
+    if(color == 1){
+        if(board[posY-1][posX+1].classList.contains("black")){
+            board[posY-1][posX+1].classList.add("possible");
+        }
+        if(board[posY-1][posX-1].classList.contains("black")){
+            board[posY-1][posX-1].classList.add("possible");
+        }
+        if(!board[posY-1][posX].classList.contains("black")){
+            board[posY-1][posX].classList.add("possible");
+        }
+        if(posY == 6){
+            board[posY-2][posX].classList.add("possible");
+        }
+    }
+    else{
+        if(board[posY+1][posX+1].classList.contains("white")){
+            board[posY+1][posX+1].classList.add("possible");
+        }
+        if(board[posY+1][posX-1].classList.contains("white")){
+            board[posY+1][posX-1].classList.add("possible");
+        }
+        if(!board[posY+1][posX].classList.contains("white")){
+            board[posY+1][posX].classList.add("possible");
+        }
+        if(posY == 1){
+            board[posY+2][posX].classList.add("possible");
+        }
     }
 }
 
@@ -139,6 +178,9 @@ function selectPiece(event){
     try{
         aux = document.getElementById(selected);
         // HERE IS GOING TO RUN THE MOVE SELECTION
+        if(event.target.classList.contains("possible")){
+            event.target.classList.add("");
+        }
     }catch(error){
         event.target.id = "selected";
         displayPath(event.target);
