@@ -13,11 +13,11 @@ for(i=0;i<size;i++){
         board[i][j].addEventListener("click",selectPiece);
     }
 }
-for(i=0;i<size;i++){
-    for(j=0;j<size;j++){
-        board[i][j].innerHTML = i+","+j;
-    }
-}
+// for(i=0;i<size;i++){
+//     for(j=0;j<size;j++){
+//         board[i][j].innerHTML = i+","+j;
+//     }
+// }
 
 // the function display path is going to show where you can move your piece
 function displayPath(piece){
