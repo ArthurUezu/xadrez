@@ -1,6 +1,6 @@
 const size = 8;
-// here i get the entire board in a vector with values ranging from 0 - 63 in the aux
-
+let gameTurn = 0;
+let roundText = document.getElementById("turno");
 let i,j;
 
 // this loop is passing the aux to the board, creating a matrix of 8 by 8
@@ -30,8 +30,14 @@ function displayPath(piece){
             break;
         }
     }
-    let color = piece.classList.contains("white");
-    // color = 1 white, color = 0 black
+    let pieceColor;
+    if(piece.classList.contains("white")){
+        pieceColor = 1;
+    }
+    else{
+        pieceColor = 2;
+    }
+    // color = 1 white, color = 2 black
     console.log("(y,x)="+posY+","+posX);
 
     // bishop movement, still requires a bit of improving
@@ -52,7 +58,7 @@ function displayPath(piece){
         kingPath(posX,posY);
     }
     else if(piece.classList.contains("pawn")){
-        pawnPath(posX,posY,color);
+        pawnPath(posX,posY,pieceColor);
     }
 }
 
@@ -101,7 +107,7 @@ function bishopPath(posX,posY){
                 board[posY+i][posX+i].classList.add("possible");
             }
         }
-        if(posY-i>-1){
+        if(posY-i>-1&&posX-i>-1){
             board[posY-i][posX-i].classList.add("possible");
             if(posX+i<8){
                 board[posY-i][posX+i].classList.add("possible");
@@ -128,13 +134,17 @@ function towerPath(posX,posY){
 }
 
 function kingPath(posX,posY){
-    board[posY][posX+1].classList.add("possible");
-    board[posY][posX-1].classList.add("possible");
+    if(posX+1<size){
+        board[posY][posX+1].classList.add("possible");
+    }
+    if(posX-1>-1){
+        board[posY][posX-1].classList.add("possible");
+    }
     for(i=-1;i<2;i++){    
-        if(posY-1>=0&&posX+i<8){
+        if(posY-1>=0&&posX+i<size){
             board[posY-1][posX+i].classList.add("possible");
         }
-        if(posY+1<8 && posX+i<8){
+        if(posY+1<size && posX+i<size){
             board[posY+1][posX+i].classList.add("possible");
         }
         
@@ -172,18 +182,55 @@ function pawnPath(posX,posY,color){
     }
 }
 
-function selectPiece(event){
-    // try catch is a much better solution for what i was trying to do in the last version,
-    // this way i dont have to have a selection variable
-    try{
-        aux = document.getElementById(selected);
-        // HERE IS GOING TO RUN THE MOVE SELECTION
-        if(event.target.classList.contains("possible")){
-            event.target.classList.add("");
-        }
-    }catch(error){
-        event.target.id = "selected";
-        displayPath(event.target);
+// THIS FUNCTIONS STILL NEEDS IMPROVING
+function resetTile(tile){
+    // function resets the class names and id's used
+    if(tile.classList.contains("odd")){
+        tile.className = "tile odd";
     }
-    
+    else{
+        tile.className = "tile";
+    }
+    aux.id = "";
+    aux = document.getElementsByClassName("possible");
+    for(i=0;i<size;i++){
+        for(j=0;j<size;j++){
+            board[i][j].classList.remove("possible");
+        }
+    }
+}
+
+function selectPiece(event){
+    // this if is a much better solution for what i was trying to do in the last version,
+    // this way I dont have to have a selection variable
+    if(aux = document.getElementById("selected")!=null){
+        if(event.target.classList.contains("possible")){
+            if(event.target.classList.contains("odd")){
+
+                event.target.className ="odd "+aux.className;
+            }
+            else{
+                event.target.className = aux.className;
+                event.target.classList.remove("odd");
+            }
+            resetTile(aux);
+            gameTurn++;
+            if(gameTurn%2 == 0){
+                roundText.innerText = "White";
+            }
+            else{
+                roundText.innerText = "Black";
+            }
+        }
+    }else{
+        if(gameTurn%2 == 0 && event.target.classList.contains("white")){
+            event.target.id = "selected";
+            displayPath(event.target);
+        }
+        else if(gameTurn%2 == 1 && event.target.classList.contains("black")){
+            event.target.id = "selected";
+            displayPath(event.target);
+
+        }
+    }
 }
