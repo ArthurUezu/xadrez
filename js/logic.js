@@ -13,34 +13,20 @@ for(i=0;i<size;i++){
         board[i][j].addEventListener("click",selectPiece);
     }
 }
-// for(i=0;i<size;i++){
-//     for(j=0;j<size;j++){
-//         board[i][j].innerHTML = i+","+j;
-//     }
-// }
 
 // the function display path is going to show where you can move your piece
-function displayPath(piece){
-    // i get the Y position and  the X position
-    let posY = (piece.offsetTop-16)/80;
-    let posX;
+function displayPossibleMoves(piece){
+    const posY = (piece.offsetTop-16)/80;
     for(i=0;i<size;i++){
         if(piece == board[posY][i]){
-            posX = i;
             break;
         }
     }
+    const posX = i;
     let pieceColor;
     if(piece.classList.contains("white")){
         pieceColor = 1;
     }
-    else{
-        pieceColor = 2;
-    }
-    // color = 1 white, color = 2 black
-    console.log("(y,x)="+posY+","+posX);
-
-    // bishop movement, still requires a bit of improving
     if(piece.classList.contains("bishop")){
         bishopPath(posX,posY);
     }
@@ -63,56 +49,38 @@ function displayPath(piece){
 }
 
 function horsePath(posX,posY){
-    if(posY+2<8){
-        if(posX+1<8){
-            board[posY+2][posX+1].classList.add("possible");
-        }
-        if(posX-1>=0){
-            board[posY+2][posX-1].classList.add("possible");
-        }
-    }
-    if(posY-2>=0){
-        if(posX+1<8){
-            board[posY-2][posX+1].classList.add("possible");
-        }
-        if(posX-1>=0){
-            board[posY-2][posX-1].classList.add("possible");
-        }
-    }
-    if(posY+1<8){
-        if(posX+2<8){
-            board[posY+1][posX+2].classList.add("possible");
-        }
-        if(posX-2>=0){
-            board[posY+1][posX-2].classList.add("possible");
-        }
-    }
-    if(posY-1>=0){
-        if(posX+2<8){
-            board[posY-1][posX+2].classList.add("possible");
-        }
-        if(posX-2>=0){
-            board[posY-1][posX-2].classList.add("possible");
+    for(i=-2;i<3;i=i+4){
+        for(j=-1;j<2;j=j+2){
+            try{
+                board[posY+i][posX+j].classList.add("possible");
+            }
+            catch(err){}
+            try{
+                board[posY+j][posX+i].classList.add("possible");
+            }
+            catch(err){}
         }
     }
 }
 
 function bishopPath(posX,posY){
     for(i=0;i<=size;i++){
-        if(size > posY+i){
-            if(posX-i>-1){
-                board[posY+i][posX-i].classList.add("possible");
-            }
-            if(posX+i<8){
-                board[posY+i][posX+i].classList.add("possible");
-            }
+        try{
+            board[posY+i][posX+i].classList.add("possible");
         }
-        if(posY-i>-1&&posX-i>-1){
+        catch(err){}
+        try{
+            board[posY+i][posX-i].classList.add("possible");
+        }
+        catch(err){}
+        try{
             board[posY-i][posX-i].classList.add("possible");
-            if(posX+i<8){
-                board[posY-i][posX+i].classList.add("possible");
-            }
         }
+        catch(err){}
+        try{
+            board[posY-i][posX+i].classList.add("possible");
+        }
+        catch(err){}
     }
 }
 
@@ -153,17 +121,17 @@ function kingPath(posX,posY){
 
 function pawnPath(posX,posY,color){
     if(color == 1){
+        if(!board[posY-1][posX].classList.contains("black")){
+            board[posY-1][posX].classList.add("possible");
+            if(posY == 6){
+                board[posY-2][posX].classList.add("possible");
+            }
+        }
         if(board[posY-1][posX+1].classList.contains("black")){
             board[posY-1][posX+1].classList.add("possible");
         }
         if(board[posY-1][posX-1].classList.contains("black")){
             board[posY-1][posX-1].classList.add("possible");
-        }
-        if(!board[posY-1][posX].classList.contains("black")){
-            board[posY-1][posX].classList.add("possible");
-        }
-        if(posY == 6){
-            board[posY-2][posX].classList.add("possible");
         }
     }
     else{
@@ -191,7 +159,7 @@ function resetTile(tile){
     else{
         tile.className = "tile";
     }
-    aux.id = "";
+    tile.id = "";
     aux = document.getElementsByClassName("possible");
     for(i=0;i<size;i++){
         for(j=0;j<size;j++){
@@ -200,36 +168,37 @@ function resetTile(tile){
     }
 }
 
-function selectPiece(event){
-    // this if is a much better solution for what i was trying to do in the last version,
-    // this way I dont have to have a selection variable
-    if(aux = document.getElementById("selected")!=null){
-        if(event.target.classList.contains("possible")){
-            if(event.target.classList.contains("odd")){
+function nextTurn(){
+    gameTurn++;
+    if(gameTurn%2 == 0){
+        roundText.innerText = "White";
+    }
+    else{
+        roundText.innerText = "Black";
+    }
+}
 
-                event.target.className ="odd "+aux.className;
-            }
-            else{
-                event.target.className = aux.className;
-                event.target.classList.remove("odd");
-            }
-            resetTile(aux);
-            gameTurn++;
-            if(gameTurn%2 == 0){
-                roundText.innerText = "White";
-            }
-            else{
-                roundText.innerText = "Black";
-            }
+function selectPiece(event){
+    let source = document.getElementById("selected");
+    if(source!=null && event.target.classList.contains("possible")){
+        // this just prevents the reset of the black tile to turning white
+        if(event.target.classList.contains("odd")){
+            event.target.className ="odd "+source.className;
         }
+        else{
+            event.target.className = source.className;
+            event.target.classList.remove("odd");
+        }
+        resetTile(source);
+        nextTurn(); 
     }else{
         if(gameTurn%2 == 0 && event.target.classList.contains("white")){
             event.target.id = "selected";
-            displayPath(event.target);
+            displayPossibleMoves(event.target);
         }
         else if(gameTurn%2 == 1 && event.target.classList.contains("black")){
             event.target.id = "selected";
-            displayPath(event.target);
+            displayPossibleMoves(event.target);
 
         }
     }
