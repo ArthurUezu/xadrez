@@ -101,6 +101,6 @@ body{
 .white.king.odd{
     background: url(woking.png);
 }
-#selected,#target{
+#pieceToMove{
     border:3px solid red;
 }

@@ -14,30 +14,29 @@ for(i=0;i<size;i++){
 }
 
 function selectPiece(event){
-    let source = document.getElementById("selected");
-    if(source!=null && event.target.classList.contains("possibleMove")){
+    let pieceToMove = document.getElementById("pieceToMove");
+    if(pieceToMove != null && event.target.classList.contains("possibleMove")){
         // this just prevents the reset of the black tile to turning white
         if(event.target.classList.contains("odd")){
-            event.target.className ="odd "+source.className;
-        }
-        else{
-            event.target.className = source.className;
+            event.target.className ="odd "+pieceToMove.className;
+        }else{
+            event.target.className = pieceToMove.className;
             event.target.classList.remove("odd");
         }
-        resetTile(source);
+        resetTile(pieceToMove);
         nextTurn(); 
     }else{
-        if(source!=null){
-            source.id = "";
+        if(pieceToMove!=null){
+            pieceToMove.id = "";
             resetPossibleMoves();
             return;
         }
         else if(gameTurn%2 == 0 && event.target.classList.contains("white")){
-            event.target.id = "selected";
+            event.target.id = "pieceToMove";
             displayPossibleMoves(event.target);
         }
         else if(gameTurn%2 == 1 && event.target.classList.contains("black")){
-            event.target.id = "selected";
+            event.target.id = "pieceToMove";
             displayPossibleMoves(event.target);
 
         }
@@ -75,7 +74,6 @@ function nextTurn(){
     }
 }
 
-// the function display path is going to show where you can move your piece
 function displayPossibleMoves(piece){
     const posY = (piece.offsetTop-16)/80;
     for(i=0;i<size;i++){
@@ -158,8 +156,7 @@ function pawnPath(posX,posY){
     if(board[posY][posX].classList.contains("white")){
         pieceColor = -1; //Direction on the board
         enemy = "black";
-    }
-    else{
+    }else{
         pieceColor = 1;
         enemy = "white";
     }
