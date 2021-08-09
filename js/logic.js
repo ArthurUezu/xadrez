@@ -29,7 +29,6 @@ function selectPiece(event){
         if(pieceToMove!=null){
             pieceToMove.id = "";
             resetPossibleMoves();
-            return;
         }
         else if(gameTurn%2 == 0 && event.target.classList.contains("white")){
             event.target.id = "pieceToMove";
@@ -76,12 +75,7 @@ function nextTurn(){
 
 function displayPossibleMoves(piece){
     const posY = (piece.offsetTop-16)/80;
-    for(i=0;i<size;i++){
-        if(piece == board[posY][i]){
-            break;
-        }
-    }
-    const posX = i;
+    const posX = board[posY].indexOf(piece);
     if(piece.classList.contains("pawn")){
         pawnPath(posX,posY);
     }
