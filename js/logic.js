@@ -8,7 +8,7 @@ let board = [];
 for(i=0;i<size;i++){
     board[i] = new Array();
     for(j=0;j<size;j++){
-        board[i][j] = aux[i*8+j];
+        board[i][j] = aux[i*size+j];
         board[i][j].addEventListener("click",selectPiece);
     }
 }
@@ -98,7 +98,7 @@ function displayPossibleMoves(piece){
 }
 
 function bishopPath(posX,posY){
-    for(i=0;i<=size;i++){
+    for(i=1;i<=size;i++){
         try{
             board[posY+i][posX+i].classList.add("possibleMove");
         }catch(err){}
@@ -129,7 +129,7 @@ function horsePath(posX,posY){
 
 
 function towerPath(posX,posY){
-    for(i=0;i<size;i++){
+    for(i=1;i<size;i++){
         if(posX+i<8){
             board[posY][posX+i].classList.add("possibleMove");
         }
