@@ -96,6 +96,7 @@ function displayPossibleMoves(piece){
 }
 
 function bishopPath(posX,posY){
+    console.time("bishop");
     const color = getColor(posX,posY);
     for(i=1;isValid(posY+i,posX+i,color);i++){
         board[posY+i][posX+i].classList.add("possibleMove");
@@ -109,6 +110,7 @@ function bishopPath(posX,posY){
     for(i=1;isValid(posY-i,posX+i,color);i++){
         board[posY-i][posX+i].classList.add("possibleMove");
     }
+    console.timeEnd("bishop");
 }
 
 function horsePath(posX,posY){
@@ -124,7 +126,6 @@ function horsePath(posX,posY){
         }
     }
 }
-
 
 function towerPath(posX,posY){
     const color = getColor(posX,posY);
@@ -165,7 +166,6 @@ function pawnPath(posX,posY){
     }
 }
 
-
 function kingPath(posX,posY){
     const color = getColor(posX,posY);
     if(isValid(posY,posX+1,color)){
@@ -175,7 +175,7 @@ function kingPath(posX,posY){
         board[posY][posX-1].classList.add("possibleMove");
     }
     for(i=-1;i<2;i++){    
-        if(isValid(posY-1,posY+i,color)){
+        if(isValid(posY-1,posX+i,color)){
             board[posY-1][posX+i].classList.add("possibleMove");
         }
         if(isValid(posY+1,posX+i,color)){

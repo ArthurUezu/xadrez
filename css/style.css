@@ -23,17 +23,18 @@ body{
     width: 640px;
     border: 1px solid black;
 }
-.possibleMove{
-    border: 5px solid green;
-}
 .odd{
     background-color: black;
 }
 .black.pawn{
-    background: url(bpawn.png);
+    background: url(wopawn.png);
+    filter: invert(100%);
+    transform: rotate(180deg);
 }
 .black.pawn.odd{
-    background: url(bopawn.png);
+    background: url(wpawn.png);
+    filter: invert(100%);
+    transform: rotate(180deg);
 }
 .white.pawn{
     background: url(wpawn.png);
@@ -42,10 +43,14 @@ body{
     background: url(wopawn.png);
 }
 .black.tower{
-    background: url(btwr.png);
+    background: url(wotwr.png);
+    filter: invert(100%);
+    transform: rotate(180deg);
 }
 .black.tower.odd{
-    background: url(botwr.png);
+    background: url(wtwr.png);
+    filter: invert(100%);
+    transform: rotate(180deg);
 }
 .white.tower{
     background: url(wtwr.png);
@@ -54,10 +59,14 @@ body{
     background: url(wotwr.png);
 }
 .black.bishop{
-    background: url(bbishop.png);
+    background: url(wobishop.png);
+    filter: invert(100%);
+    transform: rotate(180deg);
 }
 .black.bishop.odd{
-    background: url(bobishop.png);
+    background: url(wbishop.png);
+    filter: invert(100%);
+    transform: rotate(180deg);
 }
 .white.bishop{
     background: url(wbishop.png);
@@ -66,10 +75,14 @@ body{
     background: url(wobishop.png);
 }
 .black.horse{
-    background: url(bhorse.png);
+    background: url(wohorse.png);
+    filter: invert(100%);
+    transform: rotate(180deg);
 }
 .black.horse.odd{
-    background: url(bohorse.png);
+    background: url(whorse.png);
+    filter: invert(100%);
+    transform: rotate(180deg);
 }
 .white.horse{
     background: url(whorse.png);
@@ -78,10 +91,14 @@ body{
     background: url(wohorse.png);
 }
 .black.queen{
-    background: url(bqueen.png);
+    background: url(woqueen.png);
+    filter: invert(100%);
+    transform: rotate(180deg);
 }
 .black.queen.odd{
-    background: url(boqueen.png);
+    background: url(wqueen.png);
+    filter: invert(100%);
+    transform: rotate(180deg);
 }
 .white.queen{
     background: url(wqueen.png);
@@ -90,10 +107,14 @@ body{
     background: url(woqueen.png);
 }
 .black.king{
-    background: url(bking.png);
+    background: url(woking.png);
+    filter: invert(100%);
+    transform: rotate(180deg);
 }
 .black.king.odd{
-    background: url(boking.png);
+    background: url(wking.png);
+    filter: invert(100%);
+    transform: rotate(180deg);
 }
 .white.king{
     background: url(wking.png);
@@ -101,6 +122,9 @@ body{
 .white.king.odd{
     background: url(woking.png);
 }
+.possibleMove{
+    border: 5px solid green;
+}
 #pieceToMove{
-    border:3px solid red;
+    border: 5px solid grey;
 }
