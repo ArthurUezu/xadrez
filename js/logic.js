@@ -37,7 +37,6 @@ function selectPiece(event){
         else if(gameTurn%2 == 1 && event.target.classList.contains("black")){
             event.target.id = "pieceToMove";
             displayPossibleMoves(event.target);
-
         }
     }
 }
@@ -55,7 +54,6 @@ function resetTile(tile){
 }
 
 function resetPossibleMoves(){
-    aux = document.getElementsByClassName("possibleMove");
     for(i=0;i<size;i++){
         for(j=0;j<size;j++){
             board[i][j].classList.remove("possibleMove");
@@ -98,60 +96,59 @@ function displayPossibleMoves(piece){
 }
 
 function bishopPath(posX,posY){
-    for(i=1;i<=size;i++){
-        try{
-            board[posY+i][posX+i].classList.add("possibleMove");
-        }catch(err){}
-        try{
-            board[posY+i][posX-i].classList.add("possibleMove");
-        }catch(err){}
-        try{
-            board[posY-i][posX-i].classList.add("possibleMove");
-        }catch(err){}
-        try{
-            board[posY-i][posX+i].classList.add("possibleMove");
-        }catch(err){}
+    const color = getColor(posX,posY);
+    for(i=1;isValid(posY+i,posX+i,color);i++){
+        board[posY+i][posX+i].classList.add("possibleMove");
+    }
+    for(i=1;isValid(posY+i,posX-i,color);i++){
+        board[posY+i][posX-i].classList.add("possibleMove");
+    }
+    for(i=1;isValid(posY-i,posX-i,color);i++){
+        board[posY-i][posX-i].classList.add("possibleMove");
+    }
+    for(i=1;isValid(posY-i,posX+i,color);i++){
+        board[posY-i][posX+i].classList.add("possibleMove");
     }
 }
 
 function horsePath(posX,posY){
+    const color = getColor(posX,posY);
     for(i=-2;i<3;i=i+4){
         for(j=-1;j<2;j=j+2){
-            try{
+            if(isValid(posY+i,posX+j,color)){
                 board[posY+i][posX+j].classList.add("possibleMove");
-            }catch(err){}
-            try{
+            }
+            if(isValid(posY+j,posX+i,color)){
                 board[posY+j][posX+i].classList.add("possibleMove");
-            }catch(err){}
+            }
         }
     }
 }
 
 
 function towerPath(posX,posY){
-    for(i=1;i<size;i++){
-        if(posX+i<8){
-            board[posY][posX+i].classList.add("possibleMove");
-        }
-        if(posX-i>=0){
-            board[posY][posX-i].classList.add("possibleMove");
-        }
-        if(posY+i<8){
-            board[posY+i][posX].classList.add("possibleMove");
-        }
-        if(posY-i>=0){
-            board[posY-i][posX].classList.add("possibleMove");
-        }
+    const color = getColor(posX,posY);
+    for(i=0;isValid(posY,posX+i,color);i++){
+        board[posY][posX+i].classList.add("possibleMove");
+    }
+    for(i=1;isValid(posY,posX-i,color);i++){
+        board[posY][posX-i].classList.add("possibleMove");
+    }
+    for(i=1;isValid(posY+i,posX,color);i++){
+        board[posY+i][posX].classList.add("possibleMove");
+    }
+    for(i=1;isValid(posY-i,posX,color);i++){
+        board[posY-i][posX].classList.add("possibleMove");
     }
 }
 
 function pawnPath(posX,posY){
-    var pieceColor,enemy;
-    if(board[posY][posX].classList.contains("white")){
-        pieceColor = -1; //Direction on the board
+    var enemy;
+    const pieceColor = getColor(posX,posY);
+    if(pieceColor == -1){
         enemy = "black";
-    }else{
-        pieceColor = 1;
+    }
+    else{
         enemy = "white";
     }
     if(!board[posY+pieceColor][posX].classList.contains(enemy)){
@@ -168,19 +165,51 @@ function pawnPath(posX,posY){
     }
 }
 
+
 function kingPath(posX,posY){
-    if(posX+1<size){
+    const color = getColor(posX,posY);
+    if(isValid(posY,posX+1,color)){
         board[posY][posX+1].classList.add("possibleMove");
     }
-    if(posX-1>-1){
+    if(isValid(posY,posX-1,color)){
         board[posY][posX-1].classList.add("possibleMove");
     }
     for(i=-1;i<2;i++){    
-        if(posY-1>=0&&posX+i<size){
+        if(isValid(posY-1,posY+i,color)){
             board[posY-1][posX+i].classList.add("possibleMove");
         }
-        if(posY+1<size && posX+i<size){
+        if(isValid(posY+1,posX+i,color)){
             board[posY+1][posX+i].classList.add("possibleMove");
         }
     }
 }
+
+function getColor(posX,posY){
+    if(board[posY][posX].classList.contains("white")){
+        return -1;
+    }
+    else if(board[posY][posX].classList.contains("black")){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+function isValid(posY,posX,originColor){
+    if(posX < 0 || posY < 0){
+        return false;
+    }
+    else if(posX > size-1 || posY > size-1){
+        return false;
+    }
+    const pieceColor = getColor(posX,posY);
+    if(pieceColor==0){
+        return true;
+    }
+    else if((originColor+pieceColor) == 0){
+        board[posY][posX].classList.add("possibleMove");
+        return false;
+    }
+    return false;
+ }
