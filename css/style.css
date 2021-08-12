@@ -3,20 +3,26 @@
     padding: 0;
     border: 0;
     font-size: 25px;
-    color: red;
+    font-family: 'Josefin Sans', sans-serif;
 }
 body{
     height: 95vh;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    justify-content: center;
 }
-#turno{
-    font-family: 'Courier New', Courier, monospace;
-    position: absolute;
-    left: 100px;
-    top:20px;
+/* h3{
+    display: inline-block;
+} */
+#infos{
+    flex-basis: 200px;
+    border: 1px solid black;
+    border-right: none;
+    text-align: center;
+    padding-top: 10px;
 }
 #container{
-    margin: 0 auto;
-    margin-top: 15px;
     display: grid;
     grid: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr / 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     height: 640px;

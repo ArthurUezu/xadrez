@@ -23,8 +23,9 @@ function selectPiece(event){
             event.target.className = pieceToMove.className;
             event.target.classList.remove("odd");
         }
-        resetTile(pieceToMove);
+        logPlay(pieceToMove,event.target);
         nextTurn(); 
+        resetTile(pieceToMove);
     }else{
         if(pieceToMove!=null){
             pieceToMove.id = "";
@@ -71,33 +72,50 @@ function nextTurn(){
     }
 }
 
+
 function displayPossibleMoves(piece){
-    const posY = (piece.offsetTop-16)/80;
-    const posX = board[posY].indexOf(piece);
+    const position = getPosition(piece);
     if(piece.classList.contains("pawn")){
-        pawnPath(posX,posY);
+        pawnPath(position[0],position[1]);
     }
     else if(piece.classList.contains("bishop")){
-        bishopPath(posX,posY);
+        bishopPath(position[0],position[1]);
     }
     else if(piece.classList.contains("horse")){
-        horsePath(posX,posY);
+        horsePath(position[0],position[1]);
     }
     else if(piece.classList.contains("tower")){
-        towerPath(posX,posY);
+        towerPath(position[0],position[1]);
     }
     else if(piece.classList.contains("queen")){
-        towerPath(posX,posY);
-        bishopPath(posX,posY);
+        towerPath(position[0],position[1]);
+        bishopPath(position[0],position[1]);
     }
     else{
-        kingPath(posX,posY);
+        kingPath(position[0],position[1]);
     }
 }
 
-function bishopPath(posX,posY){
-    console.time("bishop");
-    const color = getColor(posX,posY);
+// THIS NEEDS IMPROVING
+function logPlay(source,target){
+    const sourcePosition = getPosition(source)
+    const targetPosition = getPosition(target);
+    const boardInfo = document.getElementById("infos");
+    var play = document.createElement("h3");
+    play.className = "mov-log";
+    play.innerText =type[0]+String.fromCharCode(sourcePosition[1]+97)+((8-sourcePosition[0]))+" "+String.fromCharCode(targetPosition[1]+97)+((8-targetPosition[0]));
+    boardInfo.appendChild(play);
+}
+
+function getPosition(piece){
+    var position = [2];
+    position[0] = (piece.offsetTop-16)/80;
+    position[1] = board[position[0]].indexOf(piece);
+    return position;
+}
+
+function bishopPath(posY,posX){
+    const color = getColor(posY,posX);
     for(i=1;isValid(posY+i,posX+i,color);i++){
         board[posY+i][posX+i].classList.add("possibleMove");
     }
@@ -110,11 +128,10 @@ function bishopPath(posX,posY){
     for(i=1;isValid(posY-i,posX+i,color);i++){
         board[posY-i][posX+i].classList.add("possibleMove");
     }
-    console.timeEnd("bishop");
 }
 
-function horsePath(posX,posY){
-    const color = getColor(posX,posY);
+function horsePath(posY,posX){
+    const color = getColor(posY,posX);
     for(i=-2;i<3;i=i+4){
         for(j=-1;j<2;j=j+2){
             if(isValid(posY+i,posX+j,color)){
@@ -127,8 +144,8 @@ function horsePath(posX,posY){
     }
 }
 
-function towerPath(posX,posY){
-    const color = getColor(posX,posY);
+function towerPath(posY,posX){
+    const color = getColor(posY,posX);
     for(i=0;isValid(posY,posX+i,color);i++){
         board[posY][posX+i].classList.add("possibleMove");
     }
@@ -143,9 +160,9 @@ function towerPath(posX,posY){
     }
 }
 
-function pawnPath(posX,posY){
+function pawnPath(posY,posX){
     var enemy;
-    const pieceColor = getColor(posX,posY);
+    const pieceColor = getColor(posY,posX);
     if(pieceColor == -1){
         enemy = "black";
     }
@@ -166,8 +183,8 @@ function pawnPath(posX,posY){
     }
 }
 
-function kingPath(posX,posY){
-    const color = getColor(posX,posY);
+function kingPath(posY,posX){
+    const color = getColor(posY,posX);
     if(isValid(posY,posX+1,color)){
         board[posY][posX+1].classList.add("possibleMove");
     }
@@ -184,7 +201,7 @@ function kingPath(posX,posY){
     }
 }
 
-function getColor(posX,posY){
+function getColor(posY,posX){
     if(board[posY][posX].classList.contains("white")){
         return -1;
     }
@@ -203,7 +220,7 @@ function isValid(posY,posX,originColor){
     else if(posX > size-1 || posY > size-1){
         return false;
     }
-    const pieceColor = getColor(posX,posY);
+    const pieceColor = getColor(posY,posX);
     if(pieceColor==0){
         return true;
     }
