@@ -24,8 +24,8 @@ function selectPiece(event){
             event.target.classList.remove("odd");
         }
         logPlay(pieceToMove,event.target);
-        nextTurn(); 
         resetTile(pieceToMove);
+        nextTurn(); 
     }else{
         if(pieceToMove!=null){
             pieceToMove.id = "";
@@ -100,10 +100,10 @@ function displayPossibleMoves(piece){
 function logPlay(source,target){
     const sourcePosition = getPosition(source)
     const targetPosition = getPosition(target);
-    const boardInfo = document.getElementById("infos");
+    const boardInfo = document.getElementById("moves");
     var play = document.createElement("h3");
     play.className = "mov-log";
-    play.innerText =type[0]+String.fromCharCode(sourcePosition[1]+97)+((8-sourcePosition[0]))+" "+String.fromCharCode(targetPosition[1]+97)+((8-targetPosition[0]));
+    play.innerText =String.fromCharCode(sourcePosition[1]+97)+((8-sourcePosition[0]))+" "+String.fromCharCode(targetPosition[1]+97)+((8-targetPosition[0]));
     boardInfo.appendChild(play);
 }
 

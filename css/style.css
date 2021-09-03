@@ -29,6 +29,16 @@ body{
     width: 640px;
     border: 1px solid black;
 }
+#moves{
+    display: flex;
+    flex-basis: 200px;
+    flex-wrap: wrap;
+}
+.mov-log{
+    display: inline-block;
+    width: 98px;
+    border: 1px solid black;
+}
 .odd{
     background-color: black;
 }
